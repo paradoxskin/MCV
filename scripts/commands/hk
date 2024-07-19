@@ -1,0 +1,4 @@
+#! /bin/bash
+# HooK
+pt=`pwd`
+echo $pt > /tmp/statusBar/hook

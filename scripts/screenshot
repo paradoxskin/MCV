@@ -1,0 +1,13 @@
+#!/bin/bash
+if test "$1" = "area"; then
+    if type flameshot &> /dev/null; then
+        flameshot gui
+    else
+        rm /tmp/tmp.png
+        scrot -s "/tmp/tmp.png"
+        feh /tmp/tmp.png
+    fi
+else
+    scrot '/home/paradoxd/Pictures/Sceenshot/%Y-%m-%d-%H%M%S_$wx$h.png'
+    mpg123 ~/.scripts/extfiles/camera.mp3
+fi

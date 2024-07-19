@@ -1,0 +1,8 @@
+#!/bin/bash
+slock &
+sleep 5
+if test "$1" = "deep"; then
+    systemctl hibernate
+else
+    systemctl suspend
+fi

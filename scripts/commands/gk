@@ -1,0 +1,6 @@
+#! /bin/bash
+# Go to hooK
+if [ -f "/tmp/statusBar/hook" ];then
+    path=`cat /tmp/statusBar/hook`
+    cd $path
+fi

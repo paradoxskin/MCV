@@ -1,0 +1,30 @@
+[submodule ".sub/nvim"]
+	path = .sub/nvim
+	url = https://github.com/paradoxskin/nvim.git
+[submodule ".sub/dwm"]
+	path = .sub/dwm
+	url = https://github.com/paradoxskin/dwm.git
+[submodule ".sub/st"]
+	path = .sub/st
+	url = https://github.com/paradoxskin/st.git
+[submodule ".sub/vim"]
+	path = .sub/vim
+	url = https://github.com/paradoxskin/.vim.git
+[submodule ".sub/flypy-dict"]
+	path = .sub/flypy-dict
+	url = https://github.com/paradoxskin/flypy-dict.git
+[submodule ".sub/ranger"]
+	path = .sub/ranger
+	url = https://github.com/paradoxskin/ranger.git
+[submodule ".sub/dmenu"]
+	path = .sub/dmenu
+	url = https://github.com/paradoxskin/dmenu.git
+[submodule ".sub/slock"]
+	path = .sub/slock
+	url = https://github.com/paradoxskin/slock.git
+[submodule ".sub/rainbarf"]
+	path = .sub/rainbarf
+	url = https://github.com/paradoxskin/rainbarf.git
+[submodule ".sub/flameshot"]
+	path = .sub/flameshot
+	url = https://github.com/paradoxskin/flameshot.git

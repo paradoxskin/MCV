@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if test "$1" = "up"; then
+    amixer sset Master 3%+ unmute &> /dev/null
+elif test "$1" = "down"; then
+    amixer sset Master 3%- unmute &> /dev/null
+else
+    amixer sset Master toggle &> /dev/null
+    volstat=`amixer|grep "Left: Playback"|grep off`
+fi
+
+if [ "$volstat" != "" ]; then
+    echo 0 > /tmp/statusBar/sound
+else
+    amixer|grep "Left: Playback"|awk '{print $5}'|cut -f 1 -d %|cut -f 2 -d \[ > /tmp/statusBar/sound
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+while [ 1 ];do
+	~/.scripts/cgbg.sh
+	sleep 7m
+done

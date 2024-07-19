@@ -1,0 +1,3 @@
+#! /bin/bash
+# Clean hooK
+echo "." > /tmp/statusBar/hook
