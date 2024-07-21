@@ -199,14 +199,20 @@ def init():
     get_todo()
 
     # touchpad
-    id = re.findall(r"id=([0-9]*)", system("xinput |grep TouchPad"))[0]
-    enable = system(f"xinput list-props {id} |grep \"Device Enabled\"").replace("\t", "").replace(" ", "").split(":")[-1]
-    with open("/tmp/statusBar/touchpad", "w") as file:
-        file.write(enable)
-    get_touchpad()
+    result = re.findall(r"id=([0-9]*)", system("xinput |grep TouchPad"))
+    if len(result) != 0:
+        id = result[0]
+        enable = system(f"xinput list-props {id} |grep \"Device Enabled\"").replace("\t", "").replace(" ", "").split(":")[-1]
+        with open("/tmp/statusBar/touchpad", "w") as file:
+            file.write(enable)
+        get_touchpad()
 
     # light
-    light = system("light").split(".")[0]
+    with open("/sys/class/backlight/intel_backlight/brightness") as file:
+        l_act = int(file.read())
+    with open("/sys/class/backlight/intel_backlight/max_brightness") as file:
+        l_mx = int(file.read())
+    light = str(l_act * 100 // l_mx)
     with open("/tmp/statusBar/light", "w") as file:
         file.write(light)
     get_light()
