@@ -1,24 +1,58 @@
 xvkbd.jumpPointer: false
+xvkbd.keypad: false
 xvkbd.NormalKeys: \
   F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 Delete \n\
   ` 1 2 3 4 5 6 7 8 9 0 - = BackSpace \n\
   Tab q w e r t y u i o p [ ] \134 \n\
   Escape a s d f g h j k l ; ' Return \n\
-  Shift_L z x c v b n m , . / Up Shift_R \n\
-  Control_L Focus Super_L Alt_L space MainMenu Left Down Right
+  Shift_L z x c v b n m , . / Shift_R \n\
+  Control_L Focus Super_L Alt_L space Left Down Up Right
 
 xvkbd.ShiftKeys: \
   F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 Delete \n\
   ~ ! @ # $ % ^ & * ( ) _ + BackSpace \n\
   ISO_Left_Tab Q W E R T Y U I O P { } | \n\
   Escape A S D F G H J K L : \" Return \n\
-  Shift_L Z X C V B N M < > ? Up Shift_R \n\
-  Control_L Focus Super_L Alt_L space MainMenu Left Down Right
+  Shift_L Z X C V B N M < > ? Shift_R \n\
+  Control_L Focus Super_L Alt_L space Left Down Up Right
 
 xvkbd.KeyLabels: \
   F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 Delete \n\
   ~\n` !\n1 @\n2 #\n3 $\n4 %\n5 ^\n6 &\n7 *\n8 (\n9 )\n0 _\n- +\n= Backspace \n\
   Tab Q W E R T Y U I O P {\n[ }\n] |\n\134 \n\
   Esc A S D F G H J K L :\n; \"\n' Return \n\
-  Shift Z X C V B N M <\n, >\n. ?\n/ up Shift \n\
-  Ctrl Focus Sp Alt space MainMenu left down right
+  Shift Z X C V B N M <\n, >\n. ?\n/ Shift \n\
+  Ctrl Focus Sp Alt space left down up right
+
+XVkbd*Repeater.height: 60
+XVkbd*row0.Repeater.height: 50
+XVkbd*row0.Repeater.width: 60
+XVkbd*Repeater.width: 60
+XVkbd*space.width: 375
+
+XVkbd*Command.height: 60
+XVkbd*Tab.width: 90
+XVkbd*2,13.width: 90
+XVkbd*Escape.width: 105
+XVkbd*Shift_L.width: 135
+XVkbd*Shift_R.width: 165
+XVkbd*Return.width: 135
+XVkbd*Control_L.width: 75
+XVkbd*row5.Focus.width: 75
+XVkbd*Super_L.width: 75
+XVkbd*Alt_L.width: 75
+XVkbd*Left.width: 75
+XVkbd*Down.width: 75
+XVkbd*Up.width: 75
+XVkbd*Right.width: 75
+XVkbd*BackSpace.width: 120
+
+XVkbd*BackSpace.horizDistance: 0
+XVkbd*F5.horizDistance: 10
+XVkbd*F9.horizDistance: 10
+XVkbd*row1.vertDistance: 10
+
+XVkbd*Background: grey19
+XVkbd*focusBackground: grey19
+XVkbd*specialBackground: grey19
+XVkbd*Foreground: grey50
