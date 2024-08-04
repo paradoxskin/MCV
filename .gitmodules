@@ -28,3 +28,6 @@
 [submodule ".sub/flameshot"]
 	path = .sub/flameshot
 	url = https://github.com/paradoxskin/flameshot.git
+[submodule ".sub/cstatusbar"]
+	path = .sub/cstatusbar
+	url = https://github.com/paradoxskin/cstatusbar.git

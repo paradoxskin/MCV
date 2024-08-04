@@ -3,5 +3,5 @@ if [ $# = 0 ];then
     echo "usage: todo [something]"
 else
     echo $1 > ~/TODO
-    echo $1 > /tmp/statusBar/todo
+    echo "T;$1" > /tmp/dwm.fifo
 fi

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+. gk
+/bin/bash

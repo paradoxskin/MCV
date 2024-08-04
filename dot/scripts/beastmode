@@ -1,0 +1,23 @@
+#!/bin/bash
+if [ -f "/tmp/beast.lock" ];then
+    exit
+fi
+
+touch /tmp/beast.lock
+
+if [ -p "/tmp/beast.fifo" ];then # off
+    if [ -f "~/.scripts/boff.sh" ];then
+        ~/.scripts/boff.sh
+    fi
+    rm /tmp/beast.fifo
+    echo "B;0" > /tmp/dwm.fifo
+else # on
+    mkfifo /tmp/beast.fifo
+    echo "B;1" > /tmp/dwm.fifo
+    if [ -f "~/.scripts/bon.sh" ];then
+        ~/.scripts/bon.sh
+    fi
+    echo "B;2" > /tmp/dwm.fifo
+fi
+
+rm /tmp/beast.lock

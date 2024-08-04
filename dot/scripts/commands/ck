@@ -1,3 +1,4 @@
 #! /bin/bash
 # Clean hooK
-echo "." > /tmp/statusBar/hook
+echo "H;" > /tmp/dwm.fifo
+echo "." > /tmp/sdlhook

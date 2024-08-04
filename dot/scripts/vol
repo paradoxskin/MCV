@@ -6,11 +6,11 @@ elif test "$1" = "down"; then
     amixer sset Master 3%- unmute &> /dev/null
 else
     amixer sset Master toggle &> /dev/null
-    volstat=`amixer|grep "Left: Playback"|grep off`
+    volstat=$(amixer get Master |grep '\[off\]')
 fi
 
 if [ "$volstat" != "" ]; then
-    echo 0 > /tmp/statusBar/sound
+    echo "V;0" > /tmp/dwm.fifo
 else
-    amixer|grep "Left: Playback"|awk '{print $5}'|cut -f 1 -d %|cut -f 2 -d \[ > /tmp/statusBar/sound
+    amixer get Master |awk -F '[]%[]' 'END{printf "V;%d\n", $2}' > /tmp/dwm.fifo
 fi

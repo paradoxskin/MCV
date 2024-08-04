@@ -132,7 +132,7 @@ alias bye="shutdown now"
 alias scan="nmcli device wifi list"
 alias connect="nmcli device wifi connect"
 alias nv=nvim
-alias pc=proxychains4 -q
+alias pc="proxychains4 -q"
 alias gk=". gk"
 
 source ~/.profile

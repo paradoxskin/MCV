@@ -14,4 +14,4 @@ if [[ $now_backlight -lt 0 ]]; then
 fi
 actual=$(expr $max_l \* $now_backlight / 100)
 echo $actual | sudo /usr/bin/tee /sys/class/backlight/*/brightness
-echo $now_backlight > /tmp/statusBar/light
+echo "L;$now_backlight" > /tmp/dwm.fifo
