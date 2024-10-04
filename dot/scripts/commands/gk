@@ -2,5 +2,5 @@
 # Go to hooK
 if [ -f "/tmp/sdlhook" ];then
     path=$(cat /tmp/sdlhook)
-    cd $path
+    cd "$path"
 fi
