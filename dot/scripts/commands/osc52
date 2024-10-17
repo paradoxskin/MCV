@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -e
+
+if [ ! -t 0 ]; then
+    encode=$(cat |base64)
+    echo -ne "\033]52;c;$encode\a"
+else
+    echo -e "osc52: \033[1;31merror:\033[0m TRY 'stdout |osc52'" >&2
+    exit 1
+fi

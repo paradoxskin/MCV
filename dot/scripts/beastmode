@@ -5,7 +5,7 @@ fi
 touch /tmp/waitforrunbeast
 
 if [ -f "/tmp/beast.lock" ];then # off
-    if [ -f "~/.scripts/boff.sh" ];then
+    if [ -f "$HOME/.scripts/boff.sh" ];then
         ~/.scripts/boff.sh
     fi
     rm /tmp/beast.lock
@@ -15,7 +15,7 @@ if [ -f "/tmp/beast.lock" ];then # off
 else # on
     touch /tmp/beast.lock
     echo "B;1" > /tmp/dwm.fifo
-    if [ -f "~/.scripts/bon.sh" ];then
+    if [ -f "$HOME/.scripts/bon.sh" ];then
         ~/.scripts/bon.sh
     fi
     echo "B;2" > /tmp/dwm.fifo
