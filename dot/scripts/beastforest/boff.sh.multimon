@@ -1,0 +1,3 @@
+#!/bin/bash
+
+xrandr --output eDP-1 --same-as HDMI-1

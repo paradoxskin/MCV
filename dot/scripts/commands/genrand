@@ -1,0 +1,10 @@
+#!/bin/bash
+
+pgf='a-zA-Z0-9'
+if [[ "$1" == "d" ]]; then
+    pgf='1-9'
+elif [[ "$1" == "l" ]]; then
+    pgf='a-z0-9'
+fi
+
+< /dev/random tr -dc $pgf | head -c 16; echo
