@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function lock() {
+    if [ ! -e "$temp_file" ]; then
+        return
+    fi
+    choice=$(cat $temp_file)
+    rm $temp_file
+    if [[ "$choice" = "" || "$choice" = "screen lock" ]]; then
+        slock
+    elif [[ "$choice" = "power off" ]]; then
+        shutdown now
+    fi
+}
+
+function dmenu_option() {
+    echo -e "cancel\nscreen lock\npower off" |dmenu -l 3 > $temp_file
+    lock
+}
+
+temp_file=$(mktemp)
+dmenu_option &
+sleep 10
+pkill dmenu
