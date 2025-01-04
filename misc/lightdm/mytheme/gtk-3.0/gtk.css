@@ -1,0 +1,27 @@
+#panel_window {
+    background-color: #000000;
+    color: #e56619;
+}
+#panel_window menubar > menuitem,
+#panel_window menubar > separator {
+    border: 10px solid #000000;
+}
+
+#panel_window menubar menu > menuitem {
+    border: 8px solid #000000;
+}
+
+#shutdown_dialog,
+#restart_dialog,
+#login_window {
+    border-radius: 15px;
+    background-color: #000000;
+    color: #e56619;
+}
+
+#buttonbox_frame button {
+    border-radius: 5px;
+    padding: 8px 15px;
+    background-color: #e56619;
+    color: #000000;
+}

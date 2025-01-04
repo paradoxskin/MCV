@@ -2,35 +2,35 @@
 set -xe
 # fn
 function link_dot() {
-	for from in $@; do
-		target="$HOME/.$from"
-		rm -rf $target
-		ln -s $(realpath dot/$from) $target
-	done
+    for from in $@; do
+        target="$HOME/.$from"
+        rm -rf $target
+        ln -s $(realpath dot/$from) $target
+    done
 }
 function copy_dot() {
-	for dot in $@; do
-		cp -rf dot/$dot "$HOME/.$dot"
-	done
+    for dot in $@; do
+        cp -rf dot/$dot "$HOME/.$dot"
+    done
 }
 function suckless_build() {
-	for build in $@; do
-		cd software/$build
-		sudo make clean install
-		cd -
-	done
+    for build in $@; do
+        cd software/$build
+        sudo make clean install
+        cd -
+    done
 }
 function link_conf() {
-	for from in $@; do
-		target="$HOME/.config/$from"
-		rm -rf $target
-		ln -s $(realpath conf/$from) $target
-	done
+    for from in $@; do
+        target="$HOME/.config/$from"
+        rm -rf $target
+        ln -s $(realpath conf/$from) $target
+    done
 }
 function copy_conf() {
-	for conf in $@; do
-		cp -rf conf/$conf ~/.config/
-	done
+    for conf in $@; do
+        cp -rf conf/$conf ~/.config/
+    done
 }
 
 # move
@@ -44,6 +44,7 @@ sudo mkdir -p /usr/share/xsessions
 sudo cp -f misc/lightdm/dwm.desktop /usr/share/xsessions/
 sudo cp -rf misc/lightdm/lightdm_wp /usr/share/pixmap/
 sudo cp -f misc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/
+sudo cp -rf misc/lightdm/mytheme/ /usr/share/themes/
 
 # .flypy
 sudo libime_tabledict misc/flypy-dict/fcitx5/flypy.txt /usr/share/libime/flypy.dict
@@ -59,6 +60,7 @@ link_dot bashrc scripts tmux.conf vim
 copy_dot dwm rainbarf.conf Xmodmap
 cp -rf dot/local/* ~/.local/
 cat dot/profile >> ~/.profile
+cat dot/xprofile > ~/.xprofile
 
 # .config
 mkdir -p ~/.config

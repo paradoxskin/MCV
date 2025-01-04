@@ -1,0 +1,34 @@
+#!/bin/sh
+shopt -s dotglob
+shopt -s nullglob
+
+echo -ne "\n[+] Login sucess, you can use git now.\n\nREPO LIST:\n"
+for file in /home/git/repo/*; do echo " * $(basename "$file")"; done
+echo -ne "\n[?] Create one for you? [N/reponame] "
+read reponame
+ret=0
+if test -z "$reponame" -o "$reponame" == "n" -o "$reponame" == "N"; then
+    echo -e "[+] GOOD LUCK."
+else
+    if [[ "$reponame" =~ ^[a-zA-Z0-9._-]+$ ]]; then
+        if test -e /srv/repo/"$reponame".git; then
+            echo "[-] FAIL: Already exists."
+            ret=1
+        else
+            git init --bare /home/git/repo/"$reponame".git &> /dev/null
+            if test $? -eq 0; then
+                echo "[+] SUCCESS."
+            else
+                echo "[-] FAIL:("
+                ret=1
+            fi
+            echo -ne "\nREPO LIST:\n"
+            for file in /home/git/repo/*; do echo " * $(basename "$file")"; done
+        fi
+    else
+        echo "[!] DONT HURT ME T^T"
+        ret=1
+    fi
+fi
+echo
+exit $ret

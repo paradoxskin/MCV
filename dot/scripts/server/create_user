@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# stdin: username@pubkey
+# usage:
+#   1. root open vim
+#   2. <username>\n<public_key>
+#   3. :w !sh <this script>
+
+set -e
+
+read username
+read pubkey
+
+if [[ "$username" == "" || "$pubkey" == "" ]]; then
+    exit 1
+fi
+
+useradd $username -s /bin/bash -m
+
+mkdir -p /home/$username/.ssh
+chmod 700 /home/$username/.ssh
+echo "$pubkey" >> /home/$username/.ssh/authorized_keys
+chmod 600 /home/$username/.ssh/authorized_keys
+chown -R $username:$username /home/$username/.ssh
+
+echo success

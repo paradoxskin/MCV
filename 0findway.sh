@@ -1,32 +1,32 @@
 #!/bin/bash
 # prepare
 need_install=(
-	clash
-	cmake
-	dunst
-	fcitx5-chinese-addons
-	fcitx5-gtk
-	fcitx5-lua
-	feh
-	fzf
-	gcc
-	gvim
-	lightdm-gtk-greeter
-	make
-	neofetch
-	perl-module-build
-	picom
-	qt5-svg
-	qt5-tools
-	ranger
-	tmux
-	ueberzug
-	wget
-	xorg
+    clash
+    cmake
+    dunst
+    fcitx5-chinese-addons
+    fcitx5-gtk
+    fcitx5-lua
+    feh
+    fzf
+    gcc
+    gvim
+    lightdm-gtk-greeter
+    make
+    neofetch
+    perl-module-build
+    picom
+    qt5-svg
+    qt5-tools
+    ranger
+    tmux
+    ueberzug
+    wget
+    xorg
 )
 packages=""
 for package in ${need_install[@]}; do
-	packages="$packages $package"
+    packages="$packages $package"
 done
 
 set -xe
@@ -38,10 +38,10 @@ mkdir -p ~/.clash
 cp misc/Country.mmdb ~/.clash/
 
 if [[ "$1" != "" ]]; then
-	wget "$1" -O ~/.clash/clash.yaml
+    wget "$1" -O ~/.clash/clash.yaml
 else
-	read config
-	echo $config > ~/.clash/clash.yaml
+    read config
+    echo $config > ~/.clash/clash.yaml
 fi
 clash -f ~/.config/clash/clash.yaml &
 PID=$!

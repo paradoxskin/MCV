@@ -1,1 +1,3 @@
 export EDITOR=/usr/bin/vim
+export PATH=$PATH:$HOME/.scripts/commands
+export PATH=$PATH:$HOME/.local/bin
