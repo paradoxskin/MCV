@@ -84,3 +84,10 @@ cd software/flameshot/build
 cmake ..
 sudo make install
 cd -
+
+cd software/todo.txt-cli
+make
+sudo make install
+mkdir -p ~/.todo
+cp -f /usr/local/etc/todo/config ~/.todo/
+cd -

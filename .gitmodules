@@ -31,3 +31,6 @@
 [submodule ".sub/cstatusbar"]
 	path = .sub/cstatusbar
 	url = https://github.com/paradoxskin/cstatusbar.git
+[submodule ".sub/todo.txt-cli"]
+	path = .sub/todo.txt-cli
+	url = https://github.com/paradoxskin/todo.txt-cli.git

@@ -136,8 +136,10 @@ alias connect="nmcli device wifi connect"
 alias pc="proxychains4 -q"
 alias gk=". gk"
 alias cdd='cd $(git rev-parse --show-toplevel)'
-alias vf='aslfjlaj=$(fzf) && vim $aslfjlaj'
+alias vf='aslfjlaj=$(fzf) && vim $aslfjlaj && echo $aslfjlaj'
+alias cf='aslfjlaj=$(find -type d |fzf) && cd $aslfjlaj && echo $aslfjlaj'
 alias v='vim -c "set nowrap" -c "set confirm" -'
+alias t='todo.sh'
 
 source ~/.profile
 source ~/.localrc &> /dev/null
