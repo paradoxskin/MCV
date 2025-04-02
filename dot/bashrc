@@ -140,6 +140,10 @@ alias vf='aslfjlaj=$(fzf) && vim $aslfjlaj && echo $aslfjlaj'
 alias cf='aslfjlaj=$(find -type d |fzf) && cd $aslfjlaj && echo $aslfjlaj'
 alias v='vim -c "set nowrap" -c "set confirm" -'
 alias t='todo.sh'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias c='clear'
+alias vi=vim
 
 source ~/.profile
 source ~/.localrc &> /dev/null
