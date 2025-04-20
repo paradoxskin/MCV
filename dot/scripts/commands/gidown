@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# 检查是否使用 --all 参数
+all_mode=false
+if [[ "$1" == "--all" ]]; then
+  all_mode=true
+  shift # 删除 --all 参数
+fi
+
+# 读取请求报文（stdin）
+readarray -t lines
+
+# 初始化变量
+url=""
+host=""
+headers=()  # 存储所有请求头字段
+
+# 解析请求报文
+for line in "${lines[@]}"; do
+  if [[ "$line" =~ ^GET\ (.+)\ HTTP ]]; then
+    path="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ ^Host:\ (.+) ]]; then
+    host="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ ^Referer:\ (.+) ]]; then
+    referer="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ ^User-Agent:\ (.+) ]]; then
+    user_agent="${BASH_REMATCH[1]}"
+  elif [[ "$line" =~ ^([^:]+):\ (.+) ]]; then
+    header_name="${BASH_REMATCH[1]}"
+    header_value="${BASH_REMATCH[2]}"
+    # 仅记录有效的请求头
+    headers+=("$header_name: $header_value")
+  fi
+done
+
+# 拼接 URL
+url="https://${host}${path}"
+
+headers=""
+enable_headers=()
+# 根据 --all 参数询问是否添加其他头部
+add_header() {
+  local header="$1"
+  if $all_mode; then
+    read -p "是否添加 $header ? (y/n): " response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+      enable_headers+=("  --header=\"$header\" \\")
+    fi
+  fi
+}
+
+# 对所有头部逐个询问是否添加
+for header in "${headers[@]}"; do
+  add_header "$header"
+done
+
+echo "aria2c -x 16 -s 16 \\"
+if [[ "$user_agent" != "" ]]; then
+echo "  --user-agent=\"$(echo "$user_agent")\" \\"
+fi
+if [[ "$referer" != "" ]]; then
+echo "  --referer=\"$(echo "$referer")\" \\"
+fi
+for header in "${enable_headers[@]}"; do
+  echo "$header"
+done
+echo "  \"$url\""
