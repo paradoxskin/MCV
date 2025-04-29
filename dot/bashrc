@@ -21,7 +21,9 @@ colors() {
             vals="${fgc:+$fgc;}${bgc}"
             vals=${vals%%;}
 
-            seq0="${vals:+\e[${vals}m}"
+            seq0=""
+            [[ -n "$vals" ]] && seq0="\e[${vals}m"
+
             printf "  %-9s" "${seq0:-(default)}"
             printf " ${seq0}TEXT\e[m"
             printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
@@ -70,6 +72,20 @@ check_status() {
     [[ $stflag == 0 ]] && echo 36 || echo 161
 }
 
+try_cd() {
+    stflag=$?
+    if [[ $stflag != 126 ]]; then
+        return
+    fi
+    last_command=$(history 1|sed "s/^[ ]*[0-9]*[ ]*//")
+    c=$(eval echo $last_command)
+    if [[ -d $c ]]; then
+        echo "@cd $c"
+        cd "$c"
+        stflag=0
+    fi
+}
+
 # autocomplete
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 bind '"\e[Z":menu-complete'
@@ -106,13 +122,13 @@ if ${use_color} ; then
     alias egrep='egrep --colour=auto'
     alias fgrep='fgrep --colour=auto'
 
-    [[ ${EUID} == 0 ]] && user='\[\e[38;5;226m\]▨ ' || user='\[\e[38;5;238m\]\u '
+    [[ ${EUID} == 0 ]] && user='\[\e[38;5;226m\]▨ ' || user=''
     PS1=" $user\[\e[38;5;109m\]\$git_echo\[\e[38;5;208m\]\W\[\e[38;5;\$(check_status)m\]❱ \[\e[0m\]"
-    PROMPT_COMMAND='stflag=$?;let_git_echo'
+    PROMPT_COMMAND='try_cd;let_git_echo'
 else
-    [[ ${EUID} == 0 ]] && user='▨ ' || user='\u '
+    [[ ${EUID} == 0 ]] && user='▨ ' || user=''
     PS1=" $user\$(get_git)\W ❱ "
-    PROMPT_COMMAND='let_git_echo'
+    PROMPT_COMMAND='try_cd;let_git_echo'
 fi
 
 unset use_color safe_term match_lhs sh
@@ -127,13 +143,14 @@ alias connect="nmcli device wifi connect"
 alias pc="proxychains4 -q"
 alias gk=". gk"
 alias cdd='cd $(git rev-parse --show-toplevel)'
-alias vf='aslfjlaj=$(fzf) && vim "$aslfjlaj" && echo $aslfjlaj'
-alias cf='aslfjlaj=$(find -type d |fzf) && cd "$aslfjlaj" && echo $aslfjlaj'
-alias vl='vim "$aslfjlaj"'
+alias vf='aslfjlaj=$(realpath "$(fzf)") && fkasjdda=$aslfjlaj && vim "$aslfjlaj" && echo $aslfjlaj'
+alias vl='vim "$fkasjdda"'
+alias cf='asldsflj=$(realpath "$(find -type d |fzf)") && cnsakjd=$asldsflj && cd "$asldsflj" && echo $asldsflj'
+alias cl='cd "$cnsakjd"'
 alias v='vim -c "set nowrap" -c "set confirm" -c "set noswapfile" -'
-alias t='todo.sh'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias t='todo.sh'
 alias c='clear'
 alias vi=vim
 
@@ -145,3 +162,4 @@ xhost +local:root > /dev/null 2>&1
 shopt -s checkwinsize
 shopt -s expand_aliases
 shopt -s histappend
+stty -ixon
