@@ -1,0 +1,4 @@
+#!/bin/bash
+
+now=$(cat /sys/devices/platform/sony-laptop/kbd_backlight)
+echo $((1-$now)) |sudo tee /sys/devices/platform/sony-laptop/kbd_backlight

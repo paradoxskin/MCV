@@ -8,6 +8,6 @@ if test "$1" = "area"; then
         feh /tmp/tmp.png
     fi
 else
-    scrot '/home/paradoxd/Pictures/Sceenshot/%Y-%m-%d-%H%M%S_$wx$h.png'
-    mpg123 ~/.scripts/extfiles/camera.mp3
+    scrot '/home/paradoxd/Pictures/%Y-%m-%d-%H%M%S_$wx$h.png'
+    mpg123 ~/.scripts/extfiles/camera.mp3 || true
 fi
