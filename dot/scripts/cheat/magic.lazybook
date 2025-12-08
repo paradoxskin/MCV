@@ -1,2 +1,2 @@
-cap esc |"xmodmap ~/.Xmodmap"
-bklg |"sh ~/kblight.sh"
+cap esc |"xmodmap ~/.Xmodmap" c-m
+bklg |"sh ~/kblight.sh" c-m
