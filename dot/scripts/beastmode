@@ -5,9 +5,7 @@ fi
 touch /tmp/waitforrunbeast
 
 if [ -f "/tmp/beast.lock" ];then # off
-    if [ -f "$HOME/.scripts/boff.sh" ];then
-        $1
-    fi
+    $1
     rm /tmp/beast.lock
     if [[ $? == 0 ]] then
         echo "B;0" > /tmp/dwm.fifo
@@ -15,9 +13,7 @@ if [ -f "/tmp/beast.lock" ];then # off
 else # on
     touch /tmp/beast.lock
     echo "B;1" > /tmp/dwm.fifo
-    if [ -f "$HOME/.scripts/bon.sh" ];then
-        $2
-    fi
+    $2
     echo "B;2" > /tmp/dwm.fifo
 fi
 

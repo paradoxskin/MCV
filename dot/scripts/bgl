@@ -1,21 +1,25 @@
 #!/bin/bash
 max_l=$(cat /sys/class/backlight/*/max_brightness 2> /dev/null)
-now_backlight=$(expr $(cat /sys/class/backlight/*/brightness 2> /dev/null) \* 100 / $max_l 2> /dev/null)
+piece=$(echo "${max_l}/10" |bc)
+now_backlight=$(cat /sys/class/backlight/*/brightness 2> /dev/null)
+echo $max_l
+echo $piece
+echo $now_backlight
 if test "$?" != 0; then
     now_backlight="**"
 else
     if test "$1" = "up"; then
-        now_backlight=$(expr $now_backlight + 2)
+        now_backlight=$(echo "($piece + $now_backlight)/1" |bc)
     elif test "$1" = "down"; then
-        now_backlight=$(expr $now_backlight - 2)
+        now_backlight=$(echo "($now_backlight - $piece)/1" |bc)
     fi
-    if [[ $now_backlight -gt 100 ]]; then
-        now_backlight=100
+    if [[ $now_backlight -gt $max_l ]]; then
+        now_backlight=$max_l
     fi
     if [[ $now_backlight -lt 0 ]]; then
         now_backlight=0
     fi
-    actual=$(expr $max_l \* $now_backlight / 100)
-    echo $actual | sudo /usr/bin/tee /sys/class/backlight/*/brightness
+    echo $now_backlight | sudo /usr/bin/tee /sys/class/backlight/*/brightness
+    now_backlight=$(echo "$now_backlight * 100 / $max_l"|bc)
 fi
 echo "L;$now_backlight" > /tmp/dwm.fifo
