@@ -3,6 +3,34 @@
 [[ $- != *i* ]] && return
 
 # functions
+genp() {
+    if [ $# -eq 2 ]; then
+        diff -rNq $1 $2 |awk '{print $2}' |awk '{sub("^[^/]+/", "")}1'
+    elif [ $# -eq 3 ]; then
+        if [ ! -d "$1" ] || [ ! -d "$2" ] || [ ! -f "$3" ]; then
+            return 1
+        fi
+        ori=$(cat $3)
+        echo -n > $3
+        for file in $ori; do
+            if [[ "${file}" == "@@@" ]]; then
+                break
+            fi
+            echo $file >> $3
+        done
+        echo "@@@" >> $3
+        for file in $ori; do
+            if [[ "${file}" == "@@@" ]]; then
+                break
+            fi
+            diff -uN "$1/$file" "$2/$file" >> $3
+        done
+        return 0
+    else
+        return 1
+    fi
+}
+
 colors() {
     local fgc bgc vals seq0
 
@@ -86,6 +114,15 @@ try_cd() {
     fi
 }
 
+vk() {
+    target=$(tac ~/.klock |fzf)
+    if [ -d $target ]; then
+        cd $target
+    elif [ -f $target ]; then
+        vim $target
+    fi
+}
+
 # autocomplete
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 bind '"\e[Z":menu-complete'
@@ -145,6 +182,8 @@ alias gk=". gk"
 alias cdd='cd $(git rev-parse --show-toplevel)'
 alias vf='aslfjlaj=$(fzf) && fkasjdda=$aslfjlaj && sfjifadf=$(realpath $fkasjdda) && vim "$aslfjlaj" && echo $aslfjlaj'
 alias vl='([ -e "$fkasjdda" ] && vim "$fkasjdda") || ([ -e "$sfjifadf" ] && vim "$sfjifadf")'
+alias vkk='pwd >> ~/.klock'
+alias vkv='vim ~/.klock'
 alias cf='asldsflj=$(realpath "$(find -type d |fzf)") && cnsakjd=$asldsflj && cd "$asldsflj" && echo $asldsflj'
 alias cl='cd "$cnsakjd"'
 alias l='ls'
