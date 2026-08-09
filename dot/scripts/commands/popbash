@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+active_pane=$(tmux list-panes -F '#{pane_active} #{pane_id} #{pane_current_path} #{pane_height} #{pane_width}' | grep -E "^1")
+
+if [ -z "${active_pane}" ]; then
+    exit 1
+fi
+
+read -ra args <<< "$active_pane"
+tmp=$(mktemp)
+trap 'rm -f "$tmp"' EXIT
+
+tmux capturep -t ${args[1]} -p -S - |grep -v '^$' > $tmp
+echo >> $tmp
+tmux popup -E -d ${args[2]} -h ${args[3]} -w ${args[4]} vim -c "set nowrap" $tmp +
+cmd=$(tail -n 1 $tmp)
+
+tmux send-keys -t ${args[1]} "${cmd}" c-m

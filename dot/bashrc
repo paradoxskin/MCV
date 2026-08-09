@@ -116,7 +116,9 @@ try_cd() {
 
 vk() {
     target=$(tac ~/.klock |fzf)
-    if [ -d $target ]; then
+    if [ -z $target ]; then
+        return
+    elif [ -d $target ]; then
         cd $target
     elif [ -f $target ]; then
         vim $target
