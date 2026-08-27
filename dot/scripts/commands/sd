@@ -1,10 +1,21 @@
 #!/bin/bash
 
-back=1
+if [[ "$1" != "-t" ]]; then
+    read -r content
+    echo "$content" > /tmp/sdcmd
+    tmux display-panes -d 0 "run-shell \"$0 -t %% $@\""
+    exit 0
+fi
+
 while [ "$#" -gt 0 ]; do
     case "$1" in
+        -t)
+            shift
+            target=$1
+            shift
+            ;;
         -N)
-            back=0
+            went=1
             shift
             ;;
         *)
@@ -14,14 +25,12 @@ while [ "$#" -gt 0 ]; do
     esac
 done
 
-read -r content
-current_pane=$TMUX_PANE
-tmux display-panes -d 0
-target_pane=$(tmux display-message -p '#{pane_id}')
-if [[ "$current_pane" == "$target_pane" ]]; then
+if [[ "$TMUX_PANE" == "$target" ]]; then
     exit 1
 fi
-if [[ $back -eq 1 ]]; then
-    tmux select-pane -t $current_pane
+if [[ "$went" == "1" ]]; then
+    tmux select-pane -t $target
 fi
-(sleep 0.1 && eval "tmux send -t $target_pane $content" &)
+
+in=$(cat /tmp/sdcmd)
+(sleep 0.1 && eval "tmux send -t $target $in" &)

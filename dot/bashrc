@@ -82,6 +82,7 @@ ex() {
 }
 
 let_git_echo() {
+    let stflag=$?
     last_pwd=$now_pwd;now_pwd=$(pwd)
     if [[ $now_pwd != $last_pwd ]]; then
         git_dir=`git rev-parse --git-dir 2> /dev/null`
@@ -100,20 +101,6 @@ check_status() {
     [[ $stflag == 0 ]] && echo 36 || echo 161
 }
 
-try_cd() {
-    stflag=$?
-    if [[ $stflag != 126 ]]; then
-        return
-    fi
-    last_command=$(history 1|sed "s/^[ ]*[0-9]*[ ]*//")
-    c=$(eval echo $last_command)
-    if [[ -d $c ]]; then
-        echo "@cd $c"
-        cd "$c"
-        stflag=0
-    fi
-}
-
 vk() {
     target=$(tac ~/.klock |fzf)
     if [ -z $target ]; then
@@ -123,6 +110,13 @@ vk() {
     elif [ -f $target ]; then
         vim $target
     fi
+}
+
+dl() {
+    today=`date +"%Y/%m/%d"`
+    find  ~/.daily -maxdepth 3 -type d -empty -delete
+    mkdir -p ~/.daily/$today
+    cd ~/.daily/$today
 }
 
 # autocomplete
@@ -163,11 +157,11 @@ if ${use_color} ; then
 
     [[ ${EUID} == 0 ]] && user='\[\e[38;5;226m\]▨ ' || user=''
     PS1=" $user\[\e[38;5;109m\]\$git_echo\[\e[38;5;208m\]\W\[\e[38;5;\$(check_status)m\]❱ \[\e[0m\]"
-    PROMPT_COMMAND='try_cd;let_git_echo'
+    PROMPT_COMMAND='let_git_echo'
 else
     [[ ${EUID} == 0 ]] && user='▨ ' || user=''
     PS1=" $user\$(get_git)\W ❱ "
-    PROMPT_COMMAND='try_cd;let_git_echo'
+    PROMPT_COMMAND='let_git_echo'
 fi
 
 unset use_color safe_term match_lhs sh
@@ -208,4 +202,5 @@ xhost +local:root > /dev/null 2>&1
 shopt -s checkwinsize
 shopt -s expand_aliases
 shopt -s histappend
+shopt -s autocd
 stty -ixon

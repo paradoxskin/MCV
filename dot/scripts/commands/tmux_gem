@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [[ "$2" != "" ]]; then
+    current=$2
+else
+    current=$TMUX_PANE
+fi
+
+if [[ "$1" == "left" ]]; then
+    tmux prev
+elif [[ "$1" == "right" ]]; then
+    tmux next
+else
+    exit 1
+fi
+
+new=$(tmux new-pane -x 50% -y 50% -X 25% -Y 25% -P -F '#{pane_id}')
+
+tmux swap-pane -t $current
+tmux kill-pane -t $new
