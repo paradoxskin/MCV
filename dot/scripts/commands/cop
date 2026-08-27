@@ -1,0 +1,14 @@
+#!/bin/bash
+# capture other panes
+set -e
+
+active=$(tmux list-panes -F '#{pane_active} #{pane_id}' | grep -E "^1")
+read -r _ active <<< "$active"
+
+all_panes=$(tmux list-panes -a -F '#{pane_id}')
+
+while read -r pane_id; do
+    if [ $pane_id != $active ]; then
+        tmux capturep -t $pane_id -p -J -S - |grep -v '^$'
+    fi
+done <<< "$all_panes"

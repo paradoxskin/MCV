@@ -1,19 +1,46 @@
 #!/bin/bash
-set -e
+set -ex
 
-active_pane=$(tmux list-panes -F '#{pane_active} #{pane_id} #{pane_current_path} #{pane_height} #{pane_width}' | grep -E "^1")
+if [ "$1" == "-a" ]; then
+    all=1
+fi
+
+all_panes=$(tmux list-panes -F '#{pane_active} #{pane_id} #{pane_current_path} #{pane_height} #{pane_width}')
+
+if [ -z "${all_panes}" ]; then
+    exit 1
+fi
+
+active_pane=$(echo "$all_panes" | grep -E "^1")
 
 if [ -z "${active_pane}" ]; then
     exit 1
 fi
 
 read -ra args <<< "$active_pane"
-tmp=$(mktemp)
-trap 'rm -f "$tmp"' EXIT
+hist=$(mktemp)
+fin=$(mktemp)
+trap 'rm -f "$hist" "$fin"' EXIT
 
-tmux capturep -t ${args[1]} -p -S - |grep -v '^$' > $tmp
-echo >> $tmp
-tmux popup -E -d ${args[2]} -h ${args[3]} -w ${args[4]} vim -c "set nowrap" $tmp +
-cmd=$(tail -n 1 $tmp)
+if [ -n "$all" ]; then
+    cop > $hist
+fi
 
-tmux send-keys -t ${args[1]} "${cmd}" c-m
+tmux capturep -t ${args[1]} -p -J -S - |grep -v '^$' >> $hist
+
+lastline=$(tail -n 1 $hist)
+if [[ "$lastline" =~ ^.*❱ ]]; then
+    lastline=$(echo $lastline | sed 's/^.*❱//')
+else
+    lastline=
+fi
+echo $lastline > $fin
+tmux popup -E -d ${args[2]} -h ${args[3]} -w ${args[4]} vim -c "set nowrap" $fin "+badd $hist"
+
+if [ -n "$lastline" ]; then
+    tmux send-keys -t ${args[1]} c-u
+fi
+
+while IFS= read -r line; do
+    tmux send-keys -t ${args[1]} "$line" c-m
+done < $fin
